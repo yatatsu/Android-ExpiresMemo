@@ -2,17 +2,16 @@
 
 buildscript {
   ext {
-    kotlin_version = '1.0.1-2'
-    realm_version = '0.89.1'
+    kotlin_version = '1.0.5-2'
+    realm_version = '2.2.0'
   }
   repositories {
     jcenter()
     mavenCentral()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.0'
+    classpath 'com.android.tools.build:gradle:2.2.2'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     classpath "io.realm:realm-gradle-plugin:$realm_version"
   }
 }
