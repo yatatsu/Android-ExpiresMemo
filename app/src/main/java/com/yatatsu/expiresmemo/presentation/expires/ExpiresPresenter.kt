@@ -1,18 +1,18 @@
 package com.yatatsu.expiresmemo.presentation.expires
 
-import android.util.Log
 import com.yatatsu.expiresmemo.model.ExpiresRepository
 import io.reactivex.disposables.CompositeDisposable
+import timber.log.Timber
 
 class ExpiresPresenter(private val expiresRepository: ExpiresRepository,
-    private val expiresView: ExpiresContract.View) : ExpiresContract.Presenter {
-
-  private var disposables: CompositeDisposable = CompositeDisposable()
+    private val expiresView: ExpiresContract.View,
+    private val disposables: CompositeDisposable) : ExpiresContract.Presenter {
 
   override fun loadExpires() {
     val disposable = expiresRepository.aliveExpires()
         .subscribe({ expires -> expiresView.showExpires(expires)},
-            {e -> Log.e("error", "log" + e)})
+            {e -> Timber.e(e, "error in loadExpires")})
+    disposable.dispose()
     disposables.add(disposable)
   }
 
@@ -24,6 +24,7 @@ class ExpiresPresenter(private val expiresRepository: ExpiresRepository,
   }
 
   override fun destroy() {
+    disposables.dispose()
     expiresRepository.close()
   }
 }
