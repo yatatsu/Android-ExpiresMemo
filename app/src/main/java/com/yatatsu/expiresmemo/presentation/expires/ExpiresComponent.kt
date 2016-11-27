@@ -6,5 +6,5 @@ import dagger.Subcomponent
 @ActivityScope
 @Subcomponent(modules = arrayOf(ExpiresModule::class))
 interface ExpiresComponent {
-  fun inject(expiresView: ExpiresContract.View)
+  fun inject(activity: ExpiresActivity)
 }

@@ -3,6 +3,7 @@ package com.yatatsu.expiresmemo
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import io.realm.Realm
 
 @Module
 class AppModule(app: App) {
@@ -15,4 +16,7 @@ class AppModule(app: App) {
 
   @Provides
   fun provideContext(): Context = context
+
+  @Provides
+  fun provideRealm(): Realm = Realm.getDefaultInstance()
 }

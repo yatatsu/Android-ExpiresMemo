@@ -9,8 +9,8 @@ def versionMinor = 1
 def versionPatch = 0
 
 android {
-  compileSdkVersion 24
-  buildToolsVersion "24.0.3"
+  compileSdkVersion 25
+  buildToolsVersion "25.0.1"
 
   dataBinding {
     enabled true
@@ -19,7 +19,7 @@ android {
   defaultConfig {
     applicationId "com.yatatsu.expiresmemo"
     minSdkVersion 19
-    targetSdkVersion 24
+    targetSdkVersion 25
     versionCode versionMajor * 100 + versionMinor * 10 + versionPatch
     versionName "${versionMajor}.${versionMinor}.${versionPatch}"
   }
@@ -40,7 +40,7 @@ android {
       applicationIdSuffix ".debug"
       versionNameSuffix "-debug"
       zipAlignEnabled true
-      shrinkResources true
+      shrinkResources false
     }
     release {
       debuggable false
@@ -68,7 +68,7 @@ android {
 }
 
 ext {
-  support_lib_version = '24.2.1'
+  support_lib_version = '25.0.1'
 }
 
 dependencies {

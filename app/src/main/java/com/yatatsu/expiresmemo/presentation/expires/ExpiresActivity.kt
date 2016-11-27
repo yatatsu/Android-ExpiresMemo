@@ -1,27 +1,67 @@
 package com.yatatsu.expiresmemo.presentation.expires
 
+import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
+import com.yatatsu.expiresmemo.App
 import com.yatatsu.expiresmemo.R
+import com.yatatsu.expiresmemo.databinding.ActivityExpiresBinding
+import com.yatatsu.expiresmemo.databinding.ListItemExpiresBinding
+import com.yatatsu.expiresmemo.model.Expire
+import com.yatatsu.expiresmemo.presentation.input.InputActivity
+import com.yatatsu.expiresmemo.presentation.widget.BindingViewHolder
+import java.util.ArrayList
+import javax.inject.Inject
 
-class ExpiresActivity : AppCompatActivity() {
+class ExpiresActivity : AppCompatActivity(), ExpiresContract.View {
+
+  override fun showExpires(expireList: List<Expire>) {
+    Log.d("foo", "ffooo")
+    adapter.items = expireList
+    adapter.notifyDataSetChanged()
+  }
+
+  @Inject lateinit var presenter: ExpiresContract.Presenter
+  private lateinit var binding: ActivityExpiresBinding
+  private lateinit var adapter: ExpiresAdapter
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-    val toolbar = findViewById(R.id.toolbar) as Toolbar?
-    setSupportActionBar(toolbar)
+    binding = DataBindingUtil.setContentView(this, R.layout.activity_expires)
+    setSupportActionBar(binding.toolbar)
 
-    val fab = findViewById(R.id.fab) as FloatingActionButton?
-    fab?.setOnClickListener({ view ->
-      Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action",
-          null).show()
+    App.get(this).appComponent.plus(ExpiresModule(this)).inject(this)
+
+    adapter = ExpiresAdapter(layoutInflater)
+    binding.content.recyclerView.adapter = adapter
+    binding.content.recyclerView.layoutManager = LinearLayoutManager(this)
+    binding.fab.setOnClickListener({ view ->
+      startActivity(Intent(this, InputActivity::class.java))
     })
+  }
+
+  override fun onStart() {
+    super.onStart()
+    presenter.start()
+    presenter.loadExpires()
+  }
+
+  override fun onStop() {
+    presenter.stop()
+    super.onStop()
+  }
+
+  override fun onDestroy() {
+    presenter.destroy()
+    super.onDestroy()
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -42,5 +82,27 @@ class ExpiresActivity : AppCompatActivity() {
     }
 
     return super.onOptionsItemSelected(item)
+  }
+
+  private class ExpiresAdapter(val inflater: LayoutInflater)
+    : RecyclerView.Adapter<BindingViewHolder<ListItemExpiresBinding>>() {
+
+    internal var items: List<Expire> = ArrayList()
+
+    override fun onCreateViewHolder(parent: ViewGroup?,
+        viewType: Int): BindingViewHolder<ListItemExpiresBinding> {
+      return BindingViewHolder(inflater, parent!!, R.layout.list_item_expires)
+    }
+
+    override fun onBindViewHolder(holder: BindingViewHolder<ListItemExpiresBinding>?,
+        position: Int) {
+      holder?.binding?.expire = items[position]
+      holder?.binding?.executePendingBindings()
+    }
+
+    override fun getItemCount(): Int {
+      return items.size
+    }
+
   }
 }

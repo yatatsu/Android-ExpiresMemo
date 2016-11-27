@@ -5,11 +5,12 @@ import io.realm.annotations.Ignore
 import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import java.util.Date;
+import java.util.UUID
 
 
 @RealmClass
 open class Expire(
-    @PrimaryKey open var id: Long = 0,
+    @PrimaryKey open var id: String = UUID.randomUUID().toString(),
     open var name: String? = null,
     open var description: String? = null,
     open var createdAt: Date? = null,
