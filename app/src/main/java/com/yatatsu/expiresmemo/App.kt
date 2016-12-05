@@ -9,9 +9,9 @@ import timber.log.Timber.DebugTree
 /**
  * Application
  */
-class App : Application() {
+open class App : Application() {
 
-  lateinit var appComponent: AppComponent
+  lateinit open var appComponent: AppComponent
 
   override fun onCreate() {
     super.onCreate()

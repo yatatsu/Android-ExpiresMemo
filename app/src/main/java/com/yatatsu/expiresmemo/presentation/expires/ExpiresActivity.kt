@@ -15,7 +15,7 @@ import com.yatatsu.expiresmemo.R
 import com.yatatsu.expiresmemo.databinding.ActivityExpiresBinding
 import com.yatatsu.expiresmemo.databinding.ListItemExpiresBinding
 import com.yatatsu.expiresmemo.model.Expire
-import com.yatatsu.expiresmemo.presentation.input.InputActivity
+import com.yatatsu.expiresmemo.presentation.input.EditActivity
 import com.yatatsu.expiresmemo.presentation.widget.BindingViewHolder
 import java.util.ArrayList
 import javax.inject.Inject
@@ -42,24 +42,18 @@ class ExpiresActivity : AppCompatActivity(), ExpiresContract.View {
     binding.content.recyclerView.adapter = adapter
     binding.content.recyclerView.layoutManager = LinearLayoutManager(this)
     binding.fab.setOnClickListener({ view ->
-      startActivity(Intent(this, InputActivity::class.java))
+      startActivity(Intent(this, EditActivity::class.java))
     })
   }
 
   override fun onStart() {
     super.onStart()
-    presenter.start()
-    presenter.loadExpires()
+    presenter.onViewAttached()
   }
 
   override fun onStop() {
-    presenter.stop()
+    presenter.onViewDetached()
     super.onStop()
-  }
-
-  override fun onDestroy() {
-    presenter.destroy()
-    super.onDestroy()
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {

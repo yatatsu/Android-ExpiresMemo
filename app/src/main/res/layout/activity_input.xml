@@ -3,6 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
   >
 
+  <data>
+    <variable
+        name="expire"
+        type="com.yatatsu.expiresmemo.model.Expire"
+        />
+  </data>
+
   <LinearLayout
       android:id="@+id/activity_input"
       android:layout_width="match_parent"
@@ -12,7 +19,7 @@
       android:paddingLeft="@dimen/activity_horizontal_margin"
       android:paddingRight="@dimen/activity_horizontal_margin"
       android:paddingTop="@dimen/activity_vertical_margin"
-      tools:context="com.yatatsu.expiresmemo.presentation.input.InputActivity"
+      tools:context="com.yatatsu.expiresmemo.presentation.input.EditActivity"
       >
 
     <android.support.design.widget.TextInputLayout
@@ -26,6 +33,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:maxLines="1"
+          android:text="@{expire.name}"
           />
 
     </android.support.design.widget.TextInputLayout>
@@ -40,6 +48,7 @@
           android:id="@+id/description"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:text="@{expire.description}"
           />
 
     </android.support.design.widget.TextInputLayout>
