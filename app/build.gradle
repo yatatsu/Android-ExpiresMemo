@@ -90,6 +90,9 @@ dependencies {
 
   compile 'com.jakewharton.timber:timber:4.3.1'
 
+  compile 'com.github.yatatsu:autobundle:3.1.1'
+  kapt 'com.github.yatatsu:autobundle-processor:3.1.1'
+
   testCompile 'junit:junit:4.12'
   compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
