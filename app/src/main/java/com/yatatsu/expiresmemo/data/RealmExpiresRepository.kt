@@ -7,9 +7,8 @@ import io.reactivex.BackpressureStrategy.LATEST
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.realm.RealmConfiguration
-import java.util.Date
 
-class RealmExpiresRepository(private val config: RealmConfiguration)
+class RealmExpiresRepository(private val config: RealmConfiguration, private val dateProvider: DateProvider)
   : ExpiresRepository {
 
   override fun aliveExpires(): Flowable<List<Expire>> {
@@ -30,7 +29,7 @@ class RealmExpiresRepository(private val config: RealmConfiguration)
   override fun saveExpire(expire: Expire): Single<Expire> {
     return Single.create { e ->
       config.getUse { realm ->
-        val entity = RealmExpire.fromData(expire, Date())
+        val entity = RealmExpire.fromData(expire, dateProvider.now())
         realm.executeTransaction {
           it.copyToRealmOrUpdate(entity)
         }

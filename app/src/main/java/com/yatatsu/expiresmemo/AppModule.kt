@@ -1,6 +1,8 @@
 package com.yatatsu.expiresmemo
 
 import android.content.Context
+import com.yatatsu.expiresmemo.data.DateProvider
+import com.yatatsu.expiresmemo.data.JavaUtilDateProvider
 import com.yatatsu.expiresmemo.data.RealmExpiresRepository
 import com.yatatsu.expiresmemo.model.ExpiresRepository
 import dagger.Module
@@ -21,6 +23,9 @@ class AppModule(app: App) {
   @Provides
   fun provideContext(): Context = context
 
+  @Provides
+  fun provideDateProvider(): DateProvider = JavaUtilDateProvider()
+
   @Singleton @Provides
   fun provideRealmConfiguration(): RealmConfiguration {
     return RealmConfiguration.Builder()
@@ -33,6 +38,7 @@ class AppModule(app: App) {
   @Provides
   fun provideRealm(config: RealmConfiguration): Realm = Realm.getInstance(config)
 
-  @Provides fun provideExpiresRepository(config: RealmConfiguration): ExpiresRepository
-      = RealmExpiresRepository(config)
+  @Provides fun provideExpiresRepository(config: RealmConfiguration,
+      dateProvider: DateProvider): ExpiresRepository
+      = RealmExpiresRepository(config, dateProvider)
 }
