@@ -6,8 +6,8 @@ import io.realm.RealmModel
 import io.realm.RealmQuery
 
 
-fun RealmConfiguration.getUse(using: (realm: Realm) -> Unit): Unit {
-  return Realm.getInstance(this).use { using(it) }
+inline fun RealmConfiguration.getUse(using: (realm: Realm) -> Unit) {
+  Realm.getInstance(this).use { using(it) }
 }
 
 fun <E: RealmModel> RealmQuery<E>.findFirstOrNull(): E? = findAll().firstOrNull()
